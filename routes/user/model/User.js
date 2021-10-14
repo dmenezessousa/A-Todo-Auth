@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     userName: {type: String, unique:true},
     email:{type:String, unique: true},
     password: {type:String},
+    timeCreated:{type:Date,default:Date.now},
     todos:[{type: mongoose.Schema.ObjectId, ref:"todo"}],
 },
 {

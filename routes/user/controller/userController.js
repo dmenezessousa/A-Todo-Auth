@@ -26,21 +26,53 @@ async function userSignUp (req, res){
         .status(500)
         .json({
             message: "Error",
-            error: errorHandler(e);
+            error: errorHandler(e),
         })
     }
 };
 
+//check login
 async function userLogin (req, res){
+    const {email, password} = req.body;
 
+    try{
+        let foundUser = await User.findOne({email: email});
+        if(!foundUser){
+            res.status(500).json({
+                message: "error",
+                error: "pleasge sign up",
+            });
+        }else{
+            let checkPassword = await bcrypt.compare(password, foundUser.password);
+            if(!checkPassword){
+                res.status(500).json({
+                    message: "Error",
+                    error: "Please check email and password",
+                });
+            }else{
+                let jwtToken = jwt.sign({
+                    email: foundUser.email,
+                    userName: foundUser.userName,
+                },
+                process.env.JWT_SECRET,
+                {expiresIn: "24h"}
+                )
+                res.json({message: "success", payload: jwtToken});
+            }
+        }
+    }catch(e){
+        res
+        .status(500)
+        .json({message: "Error", error: errorHandler(e)});
+    }
 }
 
-async function userUpdate (req, res){
+// async function userUpdate (req, res){
 
-}
+// }
 
 module.exports = {
     userSignUp,
     userLogin,
-    userUpdate,
+    // userUpdate,
 };
