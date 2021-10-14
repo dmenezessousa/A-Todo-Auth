@@ -31,7 +31,7 @@ function validateCreateData (req,res,next){
     //check if its empty
     if(Object.keys(errObj).legnth > 0){
         return res.status(500).json({
-            message: "error",
+            message: "Error",
             error: errObj,
         });
     }else{

@@ -14,7 +14,7 @@ function checkJwt (req,res,next){
 
     }catch(e){
         console.log(e);
-        res.status(500).json({message: "error", error: e.message});
+        res.status(500).json({message: "Error", error: e.message});
     }
 };
 

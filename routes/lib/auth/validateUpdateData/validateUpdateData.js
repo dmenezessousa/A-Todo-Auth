@@ -5,7 +5,7 @@ const {
 } = require("validator");
 
 function validateUpdateData(req, res, next) {
-    const { firstName, lastName, username, password, confirmPassword } = req.body;
+    const { firstName, lastName, userName, password, confirmPassword } = req.body;
 
     let errObj = {};
     if (!isAlpha(firstName)) {
@@ -16,7 +16,7 @@ function validateUpdateData(req, res, next) {
     errObj.lastName = "Last Name cannot have special characters or numbers";
     }
 
-    if (!isAlphanumeric(username)) {
+    if (!isAlphanumeric(userName)) {
     errObj.username = "Username cannot have special characters";
     }
 
@@ -32,7 +32,7 @@ function validateUpdateData(req, res, next) {
     if (Object.keys(errObj).length > 0) {
       //How would you validate firstName to make sure only alphabet is allowed
     return res.status(500).json({
-        message: "error",
+        message: "Error",
         error: errObj,
     });
     } else {

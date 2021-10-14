@@ -31,7 +31,7 @@ async function userSignUp (req, res){
     }
 };
 
-//check login
+//check login + create jwtwebtoken
 async function userLogin (req, res){
     const {email, password} = req.body;
 
@@ -65,14 +65,39 @@ async function userLogin (req, res){
         .status(500)
         .json({message: "Error", error: errorHandler(e)});
     }
-}
+};
 
-// async function userUpdate (req, res){
+//check user jwt, if it matches jwt token let user update profile
+async function userUpdate (req, res){
+    try{
+        const {password} = req.body;
+        const decodedData = res.locals.decodedData;
 
-// }
+        let salt = await bcrypt.genSalt(10);
+        let hashed = await bcrypt.hash(password, salt);
+
+        req.body.password = hashed;
+
+        let updateUser = await User.findOneAndUpdate(
+            {email: decodedData.email},
+            req.body,
+            {new:true}
+        );
+
+        res.json({
+            message: "Success",
+            payload: updateUser,
+        });
+    }catch(e){
+        res.status(500).json({
+            message: "Error",
+            error: errorHandler(e),
+        })
+    }
+};
 
 module.exports = {
     userSignUp,
     userLogin,
-    // userUpdate,
+    userUpdate,
 };

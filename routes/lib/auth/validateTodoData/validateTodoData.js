@@ -1,4 +1,4 @@
-const { isAlpha,isInt} = require("validator");
+const { isAlpha } = require("validator");
 
 function validateTodo (req,res,next){
     const {
@@ -7,11 +7,10 @@ function validateTodo (req,res,next){
 
         let errObj = {};
 
-        //check if ordername is a String
+        //check if todo has only letters
         if(!isAlpha(todo)){
-            errObj.orderName = "Alphabet ONLY!";
+            errObj.todo = "Alphabet ONLY!";
         }
-        
         
         //check if any field is empty
         if(Object.keys(errObj).length > 0){

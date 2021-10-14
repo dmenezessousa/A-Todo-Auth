@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     userSignUp,
     userLogin,
+    userUpdate
 } = require('./controller/userController');
 
 //from lib folder
@@ -13,9 +14,9 @@ const {
     checkIsUndefined,
     validateCreateData,
     validateLoginData,
-    // validateUpdateData,
+    validateUpdateData,
+    checkJwt,
     // validateTodoData,
-    // checkJwt,
 } = require('../lib/auth');
 
 router.post("/create-user",
@@ -32,5 +33,12 @@ router.put("/login",
     userLogin,
 );
 
+router.put("/update",
+    checkJwt,
+    checkIsEmpty,
+    checkIsUndefined,
+    validateUpdateData,
+    userUpdate
+);
 
 module.exports = router;

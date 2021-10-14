@@ -15,7 +15,7 @@ function checkIsEmpty (req,res,next){
     if(Object.keys(errObj).length > 0){
         return res
         .status(500)
-        .json({message: "error", error: errObj});
+        .json({message: "Error", error: errObj});
     }else{
         next();
     }
